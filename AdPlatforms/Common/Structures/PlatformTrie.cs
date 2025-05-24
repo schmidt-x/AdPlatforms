@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using AdPlatforms.Domain.Models;
 
 namespace AdPlatforms.Common.Structures;
 
@@ -7,32 +8,35 @@ internal class PlatformTrie
 {
 	private readonly TrieNode _root = new(string.Empty);
 	
-	internal void Add(string platform, IReadOnlyCollection<string> locationSegments)
+	internal void Add(Platform platform)
 	{
-		Debug.Assert(locationSegments.Count > 0, "Root node cannot have Platforms.");
-		
-		var current = _root;
-		
-		foreach (var segment in locationSegments)
+		foreach (var location in platform.Locations)
 		{
-			if (current.Children.Count == 0 || !current.Children.TryGetValue(segment, out var child))
+			Debug.Assert(location.Segments.Count > 0, "Root node cannot have Platforms.");
+			
+			var current = _root;
+			
+			foreach (var segment in location.Segments)
 			{
-				child = new TrieNode(segment);
-				current.Children.Add(segment, child);
+				if (current.Children.Count == 0 || !current.Children.TryGetValue(segment, out var child))
+				{
+					child = new TrieNode(segment);
+					current.Children.Add(child.LocationSegment, child);
+				}
+				
+				current = child;
 			}
 			
-			current = child;
+			current.Platforms.Add(platform.Name); // Here 'current' is the last node.
 		}
-		
-		current.Platforms.Add(platform); // Here 'current' is the last node.
 	}
 	
-	internal IReadOnlyCollection<string> Find(IReadOnlyCollection<string> locationSegments)
+	internal IReadOnlyCollection<string> Find(Location location)
 	{
 		List<string> platforms = [];
 		var current = _root;
 		
-		foreach (var segment in locationSegments)
+		foreach (var segment in location.Segments)
 		{
 			if (current.Children.Count == 0 || !current.Children.TryGetValue(segment, out var child))
 				break;
