@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdPlatforms", "AdPlatforms\AdPlatforms.csproj", "{8031768F-35C9-432D-ABE7-575F715DB630}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdPlatforms.UnitTests", "AdPlatforms.UnitTests\AdPlatforms.UnitTests.csproj", "{DE0D2E25-077C-4276-888A-3417E4186AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{8031768F-35C9-432D-ABE7-575F715DB630}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8031768F-35C9-432D-ABE7-575F715DB630}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8031768F-35C9-432D-ABE7-575F715DB630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0D2E25-077C-4276-888A-3417E4186AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0D2E25-077C-4276-888A-3417E4186AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0D2E25-077C-4276-888A-3417E4186AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0D2E25-077C-4276-888A-3417E4186AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
