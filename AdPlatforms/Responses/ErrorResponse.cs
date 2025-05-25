@@ -1,9 +1,7 @@
-﻿using AdPlatforms.Domain.Models;
+﻿namespace AdPlatforms.Responses;
 
-namespace AdPlatforms.Responses;
-
-public class ErrorResponse(Error error)
+public class ErrorResponse(string errorCode, string errorDescription)
 {
-	public string ErrorCode { get; } = error.Code.ToString();
-	public string ErrorDescription { get; } = error.Description;
+	public string ErrorCode { get; } = errorCode;
+	public string ErrorDescription { get; } = errorDescription;
 }

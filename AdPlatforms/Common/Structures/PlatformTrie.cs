@@ -8,6 +8,10 @@ internal class PlatformTrie
 {
 	private readonly TrieNode _root = new(string.Empty);
 	
+	/// <summary>
+	/// Adds a platform to the trie.
+	/// </summary>
+	/// <param name="platform">The <see cref="Platform"/> to add.</param>
 	internal void Add(Platform platform)
 	{
 		foreach (var location in platform.Locations)
@@ -31,6 +35,11 @@ internal class PlatformTrie
 		}
 	}
 	
+	/// <summary>
+	/// Retrieves platform names for the specified location.
+	/// </summary>
+	/// <param name="location">The <see cref="Location"/> for which to find platform names.</param>
+	/// <returns>A collection of platform names.</returns>
 	internal IReadOnlyCollection<string> Find(Location location)
 	{
 		List<string> platforms = [];

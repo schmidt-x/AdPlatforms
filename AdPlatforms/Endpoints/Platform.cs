@@ -14,7 +14,7 @@ public class Platform : EndpointGroupBase
 {
 	public override void Map(WebApplication app)
 	{
-		var group = app.MapGroup("platforms");
+		var group = app.MapGroup("api/platforms");
 		
 		group.MapPost(string.Empty, SavePlatforms)
 			.WithSummary("Saves platforms and locations")
@@ -42,7 +42,7 @@ public class Platform : EndpointGroupBase
 		
 		return error is null
 			? Results.Created()
-			: Results.BadRequest(new ErrorResponse(error));
+			: Results.BadRequest(error.ToErrorResponse());
 	}
 	
 	public static IResult GetPlatforms(string location, IPlatformService platformService)
@@ -52,6 +52,6 @@ public class Platform : EndpointGroupBase
 		return platformService.Get(location)
 			.Match<IResult>(
 				platforms => Results.Ok(new PlatformResponse(location, platforms)),
-				error => Results.BadRequest(new ErrorResponse(error)));
+				error => Results.BadRequest(error.ToErrorResponse()));
 	}
 }
