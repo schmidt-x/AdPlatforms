@@ -11,7 +11,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPlatformService, PlatformService>();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler(_ => {});
 
 if (app.Environment.IsDevelopment())
 {
