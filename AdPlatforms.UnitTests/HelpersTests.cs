@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AdPlatforms.Common;
 using AdPlatforms.Domain.Enums;
+using AdPlatforms.Domain.Models;
 
 namespace AdPlatforms.UnitTests;
 
@@ -10,8 +13,7 @@ public class HelpersTests
 	public void ShouldFailIfNoPlatformIsGiven()
 	{
 		// Arrange
-		const string input = "\n\n\n";
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader("\n\n\n");
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -26,8 +28,7 @@ public class HelpersTests
 	public void ShouldFailIfColonIsMissing()
 	{
 		// Arrange
-		const string input = "Platform /location";
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader("Platform /location");
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -42,8 +43,7 @@ public class HelpersTests
 	public void ShouldFailIfPlatformIsEmpty()
 	{
 		// Arrange
-		const string input = ":/location";
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader(":/location");
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -58,8 +58,7 @@ public class HelpersTests
 	public void ShouldFailIfLocationIsEmpty()
 	{
 		// Arrange
-		const string input = "Platform:";
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader("Platform:");
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -74,8 +73,7 @@ public class HelpersTests
 	public void ShouldFailIfLocationContainsNoElements()
 	{
 		// Arrange
-		const string input = "Platform:,,,";
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader("Platform:,,,");
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -92,7 +90,7 @@ public class HelpersTests
 	public void ShouldFailIfLocationElementConsistsOfEmptySegments(string input, int line)
 	{
 		// Arrange
-		using var sr =  new StringReader(input);
+		using var sr = new StringReader(input);
 		
 		// Act
 		var result = Helpers.ParsePlatforms(sr);
@@ -101,5 +99,34 @@ public class HelpersTests
 		Assert.True(result.IsError(out var error, out _));
 		Assert.Equal(ErrorCode.EmptyLocation, error.Code);
 		Assert.Equal($"Location must contain at least one non-empty segment. Line: {line}.", error.Description);
+	}
+	
+	[Fact]
+	public void ShouldTrimWhitespaces()
+	{
+		// Arrange
+		using var sr = new StringReader("  Platform   : /a  ,  / a / b / c  ");
+		
+		const string expectedPlatformName = "Platform";
+		List<List<string>> expectedLocations = [ [ "a" ], [ "a", "b", "c" ] ];
+		
+		// Act
+		var result = Helpers.ParsePlatforms(sr);
+		
+		// Assert
+		
+		Assert.True(result.IsOk(out var platforms, out _));
+		Assert.Single(platforms);
+		
+		var platform = platforms.First();
+		
+		Assert.Equal(expectedPlatformName, platform.Name);
+		Assert.Equal(expectedLocations.Count, platform.Locations.Count);
+		
+		var locations = (IList<Location>)platform.Locations;
+		for (int i = 0; i < expectedLocations.Count; i++)
+		{
+			Assert.Equal(expectedLocations[i], locations[i].Segments);
+		}
 	}
 }
