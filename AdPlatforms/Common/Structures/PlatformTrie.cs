@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using AdPlatforms.Domain.Models;
 
@@ -61,6 +62,6 @@ internal class PlatformTrie
 	{
 		public string LocationSegment { get; } = locationSegment;
 		public List<string> Platforms { get; } = [];
-		public Dictionary<string, TrieNode> Children { get; } = [];
+		public Dictionary<string, TrieNode> Children { get; } = new(StringComparer.OrdinalIgnoreCase);
 	}
 }

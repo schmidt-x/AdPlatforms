@@ -27,7 +27,7 @@ public static class Helpers
 				return new Error(ErrorCode.InvalidValue, $"Platform and Location(s) must be separated by a colon ':'. Line: {lineIndex}.");
 			}
 			
-			var platform = line[..index].Trim();
+			var platform = line[..index].TrimEnd();
 			if (platform.IsEmpty)
 			{
 				return new Error(ErrorCode.EmptyPlatform, $"Platform name is required. Line: {lineIndex}.");
