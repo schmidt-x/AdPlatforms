@@ -12,7 +12,7 @@ COPY AdPlatforms/. .
 RUN dotnet build -c Release --no-restore
 
 FROM build AS publish
-RUN dotnet publish -c Release --no-build -o /app/publish
+RUN dotnet publish -c Release --no-build -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 COPY --from=publish /app/publish .
