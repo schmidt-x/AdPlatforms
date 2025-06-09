@@ -52,6 +52,6 @@ public class Platform : EndpointGroupBase
 		return platformService.Get(location)
 			.Match<IResult>(
 				platforms => Results.Ok(new PlatformResponse(location, platforms)),
-				error => Results.BadRequest(error.ToErrorResponse()));
+				static error => Results.BadRequest(error.ToErrorResponse()));
 	}
 }

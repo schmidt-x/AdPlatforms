@@ -1,5 +1,7 @@
 # AdPlatforms (test assignment)
 
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/schmidt-x/AdPlatforms/ci.yml)](https://github.com/schmidt-x/AdPlatforms/actions/workflows/ci.yml)
+
 ## Содержание
 - [Задача: Рекламные площадки](#задача-рекламные-площадки)
   - [Описание](#описание)
